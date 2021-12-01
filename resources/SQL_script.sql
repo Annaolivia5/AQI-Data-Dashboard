@@ -1,4 +1,7 @@
+DROP TABLE aqi;
+
 CREATE TABLE aqi (
+	county_id INT PRIMARY KEY,
 	date VARCHAR(30),
 	state VARCHAR(30),
 	county VARCHAR(30),
