@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Pollutant AQI in the U.S.</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css">
 </head>
 
 <body>
@@ -25,15 +26,18 @@
         </div>
       </div>
       <div class="row">
+        <h1> MAP HERE</h1>
+        <div id = "slider-date"></div>
+        <div id = "event-start"></div>
+        <div id = "event-end"></div>
+        <br>
+        <br>
         <div class="col-md-2">
           <div class="well">
-            <h5>County ID No.:</h5>
+            <h5>Year:</h5>
             <select id="selDataset" onchange="optionChanged(this.value)"></select>
           </div>
-          <div class="well">
-            <h5>County ID No.:</h5>
-            <select id="selDataset" onchange="optionChanged2(this.value)"></select>
-          </div>
+          
         </div>
         <div class="col-md-5">
           <div id="bar"></div>
@@ -46,6 +50,7 @@
         <div class="col-md-12">
           <div id="bubble"></div>
         </div>
+        
       </div>
     </div>
   </div>
@@ -53,7 +58,9 @@
   <!-- scripts -->
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="static/js/app.js"></script>
+  <script src ="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
+  <script src ="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.2.0/wNumb.min.js"></script>
+ <script src="static/js/app.js"></script>
 
 </body>
 
