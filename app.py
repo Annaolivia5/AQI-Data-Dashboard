@@ -3,6 +3,7 @@ import pandas as pd
 import datetime as dt
 from config import pw
 import sqlalchemy
+from sqlalchemy import extract
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.schema import MetaData
 from sqlalchemy.orm import Session
@@ -54,15 +55,20 @@ def index():
 
 @app.route("/jsondata")
 def jsondata():
-  
-    states = make_list(session.query(AQI_ref.state))
-    d = {}
-    d["states"] = states
-    co_aqi = make_list(session.query(AQI_ref.co_aqi))
-    d["coAQI"] = co_aqi
 
-    # results = session.query(AQI_ref).all()
+    d = {}
+
+    year = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016']
+    for y in year:
+        results = session.query(func.avg(AQI_ref.no2_aqi))\
+            .filter(extract('year', AQI_ref.date) == y)\
+            .filter(AQI_ref.county == 'San Diego')\
+            .filter(AQI_ref.state =='California').all()
+        d[y] = results[0][0]
+
+    print(d)
     rs = json.dumps(d)
+
     return rs
 
 
