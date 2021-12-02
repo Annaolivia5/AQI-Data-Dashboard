@@ -84,19 +84,23 @@ def jsondata():
 def map():
 
     d2 = {}
+    aqi_query_list = []
+    d = {}
 
     years = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016']
     d2['year'] = years
 
+
     for y in years:
-        result = session.query(AQI_map.state, AQI_map.no2_aqi, AQI_map.o3_aqi, AQI_map.so2_aqi, AQI_map.co_aqi)\
-            .filter(extract('year', AQI_map.date) == y).all()
-        print(result)
     
-    rs = json.dumps(d)
-    print('_______________________________')
-    print(rs)
-    print('_______________________________')
+        results = session.query(AQI_map.state, AQI_map.no2_aqi, AQI_map.o3_aqi, AQI_map.so2_aqi, AQI_map.co_aqi)\
+            .filter(extract('year', AQI_map.date) == y).all()
+
+        d[y] = [list(x) for x in results]
+
+    d2['aqiData'] = d
+    rs = json.dumps(d2)
+    
     return rs
 
     
