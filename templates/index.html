@@ -11,23 +11,50 @@
 
 <body>
   <div class="container">
-
-    <div class="jumbotron text-center">
-      <h1>Visuals Below</h1>
-    </div>
-
     <div class="row">
       <div class="col-md-12">
         <h1>Hello!</h1>
         <small></small>
       </div>
     </div>
-
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 jumbotron text-center">
+          <h1>AQI Data in the U.S.</h1>
+          <p>Use the interactive charts below to explore the dataset</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <div class="well">
+            <h5>County ID No.:</h5>
+            <select id="selDataset" onchange="optionChanged(this.value)"></select>
+          </div>
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h3 class="panel-title">Demographic Info</h3>
+            </div>
+            <div id="sample-metadata" class="panel-body"></div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div id="bar"></div>
+        </div>
+        <div class="col-md-5">
+          <div id="gauge"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="bubble"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- scripts -->
   <script src="https://d3js.org/d3.v5.min.js"></script>
-  
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="static/js/app.js"></script>
 
 </body>
