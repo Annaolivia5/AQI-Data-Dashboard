@@ -10,6 +10,7 @@ d3.json(url).then(function(data) {
 });
 
 jsonData = d3.json("/jsondata");
+mapData = d3.json("/map");
 
 function init() {
   // Grab a reference to the dropdown select element
@@ -19,8 +20,6 @@ function init() {
   jsonData.then((data) => {
 
     var years = data.year;
-    console.log('DATA');
-    console.log(years);
 
     years.forEach((sample) => {
       selector
@@ -39,6 +38,76 @@ init();
 map_aqi();
 function map_aqi(){
   var dateSlider = document.getElementById('slider-date');
+  mapData.then((data) => {
+    
+    console.log(data);
+
+  
+    var aqi_state_2015 = data.aqi_state_data[15].aqi;
+  
+    state_code = [];
+    co_aqi = [];
+
+     for (let i = 0; i < aqi_state_2015.length; i++)
+      {
+        var row_state = aqi_state_2015[i][0];
+        var row_co = aqi_state_2015[i][1];
+        state_code.push(row_state);
+        co_aqi.push(co_aqi)
+      }
+  
+    // console.log(state_code);
+    //  for (let j = 0; j < aqi_data.length; j++)
+    //  {
+    //     row_state = aqi_data[j][0];
+    //     row_co = aqi_data[j][1];
+
+    //     state_code.push(row_state);
+    //     co_aqi.push(row_co);
+    //  }
+    // }
+
+  
+ 
+    var data = [{
+      type: 'choropleth',
+      locationmode: 'USA-states',
+      locations: state_code,
+      z: co_aqi,
+      text: state_code,
+      zmin: 0,
+      zmax: 100,
+      colorscale: [
+          [0, 'rgb(242,240,247)'], [0.2, 'rgb(218,218,235)'],
+          [0.4, 'rgb(188,189,220)'], [0.6, 'rgb(158,154,200)'],
+          [0.8, 'rgb(117,107,177)'], [1, 'rgb(84,39,143)']
+      ],
+      colorbar: {
+          title: 'CO AQI',
+          thickness: 0.2
+      },
+      marker: {
+          line:{
+              color: 'rgb(255,255,255)',
+              width: 2
+          }
+      }
+  }];
+
+  
+  var layout = {
+    title: '2015 CO AQI Map',
+    geo:{
+        scope: 'usa',
+        showlakes: true,
+        lakecolor: 'rgb(255,255,255)'
+    }
+};
+
+Plotly.newPlot("myDiv", data, layout, {showLink: false});
+});
+
+
 
 function timestamp(str) {
     return new Date(str).getTime();
@@ -92,7 +161,6 @@ function buildMetadata(year) {
     
     var result = resultArray[0];
     aqi_result = result.aqi;
-    console.log(aqi_result);
 
     // Use d3 to select the panel with id of `#sample-metadata`
     var PANEL = d3.select("#sample-metadata");
