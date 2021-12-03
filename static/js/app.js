@@ -5,12 +5,11 @@ const url = "/jsondata";
 // console.log("Data Promise: ", dataPromise);
 
 // Fetch the JSON data and console log it
-d3.json(url).then(function(data) {
-  console.log(data);
-});
+
 
 jsonData = d3.json("/jsondata");
 mapData = d3.json("/map");
+calData = d3.json("/cal");
 
 function init() {
   // Grab a reference to the dropdown select element
@@ -28,7 +27,9 @@ function init() {
         .property("value", sample);
     });
 
+
     buildMetadata('2000');
+    cal_map('2000');
     
   });
 }
@@ -36,11 +37,66 @@ function init() {
 // Initialize the dashboard
 init();
 map_aqi();
-function map_aqi(){
-  var dateSlider = document.getElementById('slider-date');
-  mapData.then((data) => {
+cal_map();
+
+function cal_map(year){
+  calData.then((data) => {
+    console.log(year)
+    values = data.cal_data;
+  
+    var result = values.filter(sampleObj => sampleObj.year == year);
+   
+    var aqi_result = result[0].co_aqi;
+    console.log(aqi_result)
+
+    var myConfig = {
+      type: 'calendar',
+      options: {
+        year: {
+          text: year,
+          visible: true
+        },
+        startMonth: 1,
+        endMonth: 12,
+        palette: ['none', '#2196F3'],
+        month: {
+          item: {
+            fontColor: 'gray',
+            fontSize: 9
+          }
+        },
+        weekday: {
+          values: ['','M','','W','','F',''],
+          item:{
+            fontColor: 'gray',
+            fontSize:9
+          }
+        },
+        values: aqi_result
+      },
+
+      plotarea: {
+        marginTop: '15%',
+        marginBottom:'5%',
+        marginLeft: '8%',
+        marginRight: '8%'
+      }
+    };
     
-    console.log(data);
+    zingchart.loadModules('calendar', function(){   
+      zingchart.render({ 
+        id : 'myChart', 
+        data : myConfig, 
+        height: 400, 
+        width: '100%'
+      });
+    });
+    
+  });
+}
+function map_aqi(){
+
+  mapData.then((data) => {
 
   
     var aqi_state_2015 = data.aqi_state_data[15].aqi;
@@ -56,8 +112,6 @@ function map_aqi(){
         co_aqi.push(row_co);
       }
   
-
-  console.log(state_code);
  
     var data = [{
       type: 'choropleth',
@@ -66,11 +120,11 @@ function map_aqi(){
       z: co_aqi,
       text: state_code,
       zmin: 0,
-      zmax: 100,
+      zmax: 40,
       colorscale: [
           [0, 'rgb(242,240,247)'], [0.2, 'rgb(218,218,235)'],
           [0.4, 'rgb(188,189,220)'], [0.6, 'rgb(158,154,200)'],
-          [0.8, 'rgb(117,107,218)'], [1, 'rgb(255,0,0)']
+          [0.8, 'rgb(117,107,218)'], [1, 'rgb(84,39,143)']
       ],
       colorbar: {
           title: 'CO AQI',
@@ -98,54 +152,18 @@ Plotly.newPlot("myDiv", data, layout, {showLink: false});
 });
 
 
-
-function timestamp(str) {
-    return new Date(str).getTime();
-}
-
-noUiSlider.create(dateSlider, {
-// Create two timestamps to define a range.
-    range: {
-        min: timestamp('2001'),
-        max: timestamp('2017')
-    },
-
-// Steps of one week
-    step:  365* 24 * 60 * 60 * 1000,
-
-// Two more timestamps indicate the handle starting positions.
-    start: [timestamp('2000')],
-
-// No decimals
-    format: wNumb({
-        decimals: 0
-    })
-});
-
-var dateValues = [
-  document.getElementById('event-start'),
-  document.getElementById('event-end')
-];
-
-var formatter = new Intl.DateTimeFormat('en-GB', {
-  dateStyle: 'full'
-});
-
-dateSlider.noUiSlider.on('update', function (values, handle) {
-  dateValues[handle].innerHTML = formatter.format(new Date(+values[handle]));
-});
-
 };
 function optionChanged(selectedYear) {
   // Fetch new data each time a new sample is selected
   buildMetadata(selectedYear);
+  cal_map(selectedYear);
   // buildCharts(selectedYear);
 }
 
 function buildMetadata(year) {
   jsonData.then((data) => {
     var data = data.aqiData;
-
+    console.log(data)
     // Filter the data for the object with the desired year
     var resultArray = data.filter(sampleObj => sampleObj.year == year);
     
@@ -153,11 +171,9 @@ function buildMetadata(year) {
     aqi_result = result.aqi;
 
     // Use d3 to select the panel with id of `#sample-metadata`
-    var PANEL = d3.select("#sample-metadata");
-
+    
     // Use `.html("") to clear any existing metadata
-    PANEL.html("");
-
+  
     let trace1 = {
       type:'bar',
       x:['no2_aqi', 'o3_aqi', 'so2_aqi', 'co_aqi'],
@@ -175,6 +191,7 @@ function buildMetadata(year) {
     Plotly.newPlot('bar', plot_data, layout);
   });
 }
+
 
 
 

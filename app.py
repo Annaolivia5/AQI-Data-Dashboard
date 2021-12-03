@@ -98,6 +98,31 @@ def map():
     rs = json.dumps(d2)
     return rs
 
+@app.route("/cal")
+def cal():
+    d2= {}
+    d2['cal_data'] = []
+
+    years = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016']
+    for y in years:
+        d = {}
+        results = session.query(AQI_ref.date, AQI_ref.co_aqi)\
+            .filter(extract('year', AQI_ref.date) == y)\
+            .filter(AQI_ref.county == 'San Diego')\
+            .filter(AQI_ref.state =='California').all()
+    
+        d['co_aqi']= [list(x) for x in results]
+        for i in d['co_aqi']:
+            i[0] = i[0].strftime('%Y-%m-%d')
+
+        d['year'] = y
+        d2['cal_data'].append(d)
+        
+    rs = json.dumps(d2)
+    print(rs)
+    return rs
+   
+   
     
 
 
