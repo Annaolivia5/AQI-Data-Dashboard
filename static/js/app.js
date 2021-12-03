@@ -53,21 +53,11 @@ function map_aqi(){
         var row_state = aqi_state_2015[i][0];
         var row_co = aqi_state_2015[i][1];
         state_code.push(row_state);
-        co_aqi.push(co_aqi)
+        co_aqi.push(row_co);
       }
   
-    // console.log(state_code);
-    //  for (let j = 0; j < aqi_data.length; j++)
-    //  {
-    //     row_state = aqi_data[j][0];
-    //     row_co = aqi_data[j][1];
 
-    //     state_code.push(row_state);
-    //     co_aqi.push(row_co);
-    //  }
-    // }
-
-  
+  console.log(state_code);
  
     var data = [{
       type: 'choropleth',
@@ -80,7 +70,7 @@ function map_aqi(){
       colorscale: [
           [0, 'rgb(242,240,247)'], [0.2, 'rgb(218,218,235)'],
           [0.4, 'rgb(188,189,220)'], [0.6, 'rgb(158,154,200)'],
-          [0.8, 'rgb(117,107,177)'], [1, 'rgb(84,39,143)']
+          [0.8, 'rgb(117,107,218)'], [1, 'rgb(255,0,0)']
       ],
       colorbar: {
           title: 'CO AQI',
