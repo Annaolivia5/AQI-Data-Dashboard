@@ -139,7 +139,7 @@ function map_aqi(){
       family: 'Arial',
       size: 17
     },
-    width: 1200,
+    width: 1100,
     height: 600,
     geo:{
         scope: 'usa',
