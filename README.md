@@ -17,4 +17,4 @@ Second, the dashboard shows how all 4 pollutants affect San Diego, CA, across al
 Notes: A file called config.py with a variable "pw" must be created, to import  your PostgreSQL password. Run the SQL_python.ipynb to create postgreSQL Databse prior to running the flask app (app.py).
 
 Final Dashboard:
-![Dashboard](/images/DASH.png "dashboard images")
+![Dashboard](images/DASH.png "dashboard images")
