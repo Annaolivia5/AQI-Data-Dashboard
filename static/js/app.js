@@ -18,17 +18,16 @@ function init() {
         .property("value", sample);
     });
 
-    //Call function to display 2000 data on page open
-    bar_chart('2000');
+    //Call function to display 2000 data on page open 
+    map_aqi();
     cal_map('2000');
-    
+    bar_chart('2000');
   });
 }
 
 // Initialize the dashboard
 init();
-map_aqi();
-cal_map();
+
 
 function cal_map(year){
   calData.then((data) => {
@@ -91,6 +90,7 @@ function map_aqi(){
 
   mapData.then((data) => {
 
+    console.log(data)
     //get data for 2015
     var aqi_state_2015 = data.aqi_state_data[15].aqi;
     //initialize arrays to hold State abbrevs and CO data
@@ -106,7 +106,7 @@ function map_aqi(){
         co_aqi.push(row_co);
       }
   
-    //Chloropleth map data for US. Data is transferred via state abrevation
+    //Choropleth map data for US. Data is transferred via state abrevation
     var data = [{
       type: 'choropleth',
       locationmode: 'USA-states',
