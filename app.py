@@ -34,7 +34,7 @@ session = Session(bind=engine)
 
 # Save reference to the table
 AQI_ref = Base.classes.aqi
-AQI_map = Base.classes.map
+AQI_map = Base.classes.map_grouper
 
 
 
@@ -75,9 +75,6 @@ def jsondata():
         d2['aqiData'].append(d)
     
     rs = json.dumps(d2)
-    print('_______________________________')
-    print(rs)
-    print('_______________________________')
     return rs
 
 @app.route("/map")
@@ -119,7 +116,6 @@ def cal():
         d2['cal_data'].append(d)
         
     rs = json.dumps(d2)
-    print(rs)
     return rs
    
    
