@@ -192,7 +192,7 @@ function bar_chart(year) {
 
     //Builds layout for bar chart
     var layout = {
-      title: 'San Diego Daily Average AQI per Pollutant ' + String(year),
+      title: 'San Diego Average AQI per Pollutant for' + String(year),
       
       font: {
         family: 'Arial',
