@@ -1,14 +1,9 @@
-import numpy as np
-import pandas as pd
-import datetime as dt
 from config import pw
-import sqlalchemy
 from sqlalchemy import extract
 from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.schema import MetaData
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func, inspect
-from flask import Flask, render_template, json, jsonify
+from flask import Flask, json
 
 def make_list(query):
 
