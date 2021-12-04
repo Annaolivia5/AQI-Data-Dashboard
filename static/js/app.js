@@ -2,12 +2,14 @@ jsonData = d3.json("/jsondata");
 mapData = d3.json("/map");
 calData = d3.json("/cal");
 
+// Function initializes the dashboard.
 function init() {
   // Grab a reference to the dropdown select element
   var selector = d3.select("#selDataset");
 
   // Use the list of sample names to populate the select options
   jsonData.then((data) => {
+    
     //Grab data
     var years = data.year;
     //Build drop down
@@ -25,13 +27,21 @@ function init() {
   });
 }
 
-// Initialize the dashboard
-init();
+// Function called by HTML by drop down selection.
+function optionChanged(selectedYear) {
+  // Fetch new data each time a new sample is selected
+  bar_chart(selectedYear);
+  cal_map(selectedYear);
+  // buildCharts(selectedYear);
+}
 
-
+// Function generates calendar visual.
 function cal_map(year){
   calData.then((data) => {
-    console.log(year)
+    
+    console.log('JSON for the calendar...');
+    console.log(data);
+
     values = data.cal_data;
     
     //filter result by year
@@ -74,6 +84,7 @@ function cal_map(year){
         marginRight: '8%'
       }
     };
+
     //Call zingchart
     zingchart.loadModules('calendar', function(){   
       zingchart.render({ 
@@ -86,11 +97,15 @@ function cal_map(year){
     
   });
 }
+
+// Function generates chropleth visual.
 function map_aqi(){
 
   mapData.then((data) => {
-
-    console.log(data)
+    
+    console.log('JSON for the choropleth map...');
+    console.log(data);
+    
     //get data for 2015
     var aqi_state_2015 = data.aqi_state_data[15].aqi;
     //initialize arrays to hold State abbrevs and CO data
@@ -152,16 +167,15 @@ Plotly.newPlot("myDiv", data, layout, {showLink: false});
 });
 
 
-};
-function optionChanged(selectedYear) {
-  // Fetch new data each time a new sample is selected
-  bar_chart(selectedYear);
-  cal_map(selectedYear);
-  // buildCharts(selectedYear);
 }
 
+// Function generates bar chart visual.
 function bar_chart(year) {
   jsonData.then((data) => {
+
+    console.log('JSON for the Bar chart...');
+    console.log(data);
+
     var data = data.aqiData;
   
     // Filter the data for the object with the desired year
@@ -205,6 +219,7 @@ function bar_chart(year) {
   });
 }
 
-
+// Initialize the dashboard
+init();
 
 
