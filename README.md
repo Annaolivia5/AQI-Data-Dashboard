@@ -1,7 +1,7 @@
 # Project3
 
 Our AQI Data Visualization Dashboard
-visualizaes data for pollutants (N02, SO2,  O3, CO) in the United State and San Diego, California. 
+visualizes data for pollutants (N02, SO2,  O3, CO) in the United State and San Diego, California. 
 
 
 Data from kaggle that was previously scraped from the U.S. EPA and then assembled into a CSV was used.
