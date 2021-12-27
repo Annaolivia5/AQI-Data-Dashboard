@@ -1,4 +1,4 @@
-# AQI in the U.S. and San Diego - Data Visualiztion Dashboard
+# AQI in the U.S. and San Diego - Data Visualization Dashboard
 
 Our AQI Data Visualization Dashboard
 visualizes data for pollutants (N02, SO2,  O3, CO) in the United State and San Diego, California. 
